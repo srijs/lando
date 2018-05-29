@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `lando` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, lando">
+
+    <title>lando - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
+    <script src="../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Crate lando</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'lando', ty: 'mod', relpath: '../'};</script></div>
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>lando</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/lando/lib.rs.html#1-290' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Lando provides building blocks for serverless HTTP Rust applications deployable on <a href="https://aws.amazon.com/lambda/">AWS lambda</a>.</p>
+<p>Lando extends the <a href="https://crates.io/crates/crowbar">crowbar</a> crate with
+type-safe interfaces exposing <a href="https://aws.amazon.com/api-gateway/">API gateway</a> proxy events
+as standard Rust <a href="https://crates.io/crates/http">http</a> types. For convenience,
+<code>lando</code> re-exports <code>http::Request</code> and <code>http::Response</code> types.</p>
+<p>AWS lambda is a ✨ <strong>managed</strong> ✨ compute service meaning that you do not need
+to own and operate any of the servers your application will run on, freeing
+you up to <strong>focus on your application</strong>, letting the platform scale
+your application to meet its needs.</p>
+<p>Lando exports Rust functions as native CPython modules making it possible to embed
+handlers within aws' <a href="https://docs.aws.amazon.com/lambda/latest/dg/python-programming-model.html">python3.6 runtime</a>.</p>
+<h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+<p>Add both <code>lando</code> and <code>cpython</code> as dependencies to your <code>Cargo.toml</code></p>
+<pre><code class="language-toml">[dependencies]
+cpython = &quot;0.1&quot;
+lando = &quot;0.1&quot;
+</code></pre>
+<p>Within your library, use the macros from both crates</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="comment">// the following imports macros needed by the gateway macro</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cpython</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>(<span class="ident">gateway</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lando</span>;</pre>
+<p>And write your function using the <a href="macro.gateway.html">gateway!</a> macro:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="macro">gateway</span><span class="macro">!</span>(<span class="op">|</span><span class="ident">_request</span>, <span class="ident">context</span><span class="op">|</span> {
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;hi cloudwatch logs, this is {}&quot;</span>, <span class="ident">context</span>.<span class="ident">function_name</span>());
+    <span class="comment">// return a basic 200 response</span>
+    <span class="prelude-val">Ok</span>(<span class="ident">lando</span>::<span class="ident">Response</span>::<span class="ident">new</span>(()))
+});</pre>
+<h1 id="packaging-functions" class="section-header"><a href="#packaging-functions">Packaging functions</a></h1>
+<p>Lando targets AWS Lambda's Python3.6 runtime. For your code to be usable
+in this execution environment, you need to compile your application as
+a dynamic library allowing it to be embedded within CPython. The
+<a href="macro.gateway.html">gateway!</a> macro does
+the all the integration for you, but cargo still needs
+to know what type of lib you are compiling.</p>
+<p>You can configure cargo to build a dynamic library with the following toml.
+If you're using the
+<code>gateway!</code> macro as above, you need to use <code>lambda</code> for the library name
+(see the documentation
+for <a href="macro.gateway.html">gateway!</a> if you want to use something else).</p>
+<pre><code class="language-toml">[lib]
+name = &quot;lambda&quot;
+crate-type = [&quot;cdylib&quot;]
+</code></pre>
+<blockquote>
+<p>💡 <code>dylib</code> produces dynamic library embeddable in other languages. This and other link formats are described <a href="https://doc.rust-lang.org/reference/linkage.html">here</a></p>
+</blockquote>
+<p><code>cargo build</code> will then produce an aws deployable <code>liblambda.so</code> binary artifact.
+Package this in a zip file and its now deployable as an AWS Lambda function.
+Be sure to use the the Python 3.6 execution environment with the handler
+configured as <code>liblambda.handler</code>.</p>
+<p>Because you're building a dynamic library, other libraries that you're dynamically linking
+against need to also be in the Lambda execution environment. The easiest way to do this is
+building in an environment similar to Lambda's, like <a href="https://hub.docker.com/r/lambci/lambda">this Docker
+container</a>.</p>
+</div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.gateway.html"
+                                  title='macro lando::gateway'>gateway</a></td>
+                           <td class='docblock-short'>
+                                <p>Macro that exposes a Lambda function handler for AWS API gateway proxy event triggers.</p>
+
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LambdaContext.html"
+                                  title='struct lando::LambdaContext'>LambdaContext</a></td>
+                           <td class='docblock-short'>
+                                <p>Provides a view into the <code>context</code> object available to Lambda functions.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Response.html"
+                                  title='struct lando::Response'>Response</a></td>
+                           <td class='docblock-short'>
+                                <p>Represents an HTTP response</p>
+
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Body.html"
+                                  title='enum lando::Body'>Body</a></td>
+                           <td class='docblock-short'>
+                                <p>Reprentation of request and response bodies</p>
+
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.RequestExt.html"
+                                  title='trait lando::RequestExt'>RequestExt</a></td>
+                           <td class='docblock-short'>
+                                <p>Extentions for <code>lando::Request</code> objects that
+provide access to API gateway features</p>
+
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="type" href="type.Request.html"
+                                  title='type lando::Request'>Request</a></td>
+                           <td class='docblock-short'>
+                                <p>A re-exported version of <code>http::Request</code> with a type
+parameter for body fixed to type <a href="enum.Body.html">lando::Body</a></p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="type" href="type.Result.html"
+                                  title='type lando::Result'>Result</a></td>
+                           <td class='docblock-short'>
+                                <p>Result type for gateway functions</p>
+
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "lando";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

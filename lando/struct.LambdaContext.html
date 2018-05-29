@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LambdaContext` struct in crate `lando`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LambdaContext">
+
+    <title>lando::LambdaContext - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
+    <script src="../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Struct LambdaContext</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.function_name">function_name</a><a href="#method.function_version">function_version</a><a href="#method.invoked_function_arn">invoked_function_arn</a><a href="#method.memory_limit_in_mb">memory_limit_in_mb</a><a href="#method.aws_request_id">aws_request_id</a><a href="#method.log_group_name">log_group_name</a><a href="#method.log_stream_name">log_stream_name</a><a href="#method.get_remaining_time_in_millis">get_remaining_time_in_millis</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">!Send</a><a href="#impl-Sync">!Sync</a></div></div><p class='location'><a href='index.html'>lando</a></p><script>window.sidebarCurrent = {name: 'LambdaContext', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>lando</a>::<wbr><a class="struct" href=''>LambdaContext</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span></span></h1><div class="docblock type-decl"><pre class='rust struct'>pub struct LambdaContext&lt;'a&gt; { /* fields omitted */ }</pre></div><div class='docblock'><p>Provides a view into the <code>context</code> object available to Lambda functions.</p>
+<p>Context object methods and attributes are documented at [The Context Object (Python)]
+(https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html) in the AWS Lambda
+docs.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;'a&gt; <a class="struct" href="../lando/struct.LambdaContext.html" title="struct lando::LambdaContext">LambdaContext</a>&lt;'a&gt;</code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.function_name' class="method"><span id='function_name.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.function_name' class='fnname'>function_name</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>Name of the Lambda function that is executing.</p>
+</div><h4 id='method.function_version' class="method"><span id='function_version.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.function_version' class='fnname'>function_version</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>The Lambda function version that is executing. If an alias is used to invoke the function,
+then <code>function_version</code> will be the version the alias points to.</p>
+</div><h4 id='method.invoked_function_arn' class="method"><span id='invoked_function_arn.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.invoked_function_arn' class='fnname'>invoked_function_arn</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>The ARN used to invoke this function. It can be function ARN or alias ARN. An unqualified
+ARN executes the <code>$LATEST</code> version and aliases execute the function version it is pointing
+to.</p>
+</div><h4 id='method.memory_limit_in_mb' class="method"><span id='memory_limit_in_mb.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.memory_limit_in_mb' class='fnname'>memory_limit_in_mb</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>Memory limit, in MB, you configured for the Lambda function. You set the memory limit at
+the time you create a Lambda function and you can change it later.</p>
+</div><h4 id='method.aws_request_id' class="method"><span id='aws_request_id.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.aws_request_id' class='fnname'>aws_request_id</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>AWS request ID associated with the request. This is the ID returned to the client that
+called the invoke method.</p>
+<p><strong>Note</strong>: If AWS Lambda retries the invocation (for example, in a situation where the
+Lambda function that is processing Amazon Kinesis records throws an exception), the request
+ID remains the same.</p>
+</div><h4 id='method.log_group_name' class="method"><span id='log_group_name.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.log_group_name' class='fnname'>log_group_name</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>The name of the CloudWatch log group where you can find logs written by your Lambda
+function.</p>
+</div><h4 id='method.log_stream_name' class="method"><span id='log_stream_name.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.log_stream_name' class='fnname'>log_stream_name</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>The name of the CloudWatch log stream where you can find logs written by your Lambda
+function. The log stream may or may not change for each invocation of the Lambda function.</p>
+</div><h4 id='method.get_remaining_time_in_millis' class="method"><span id='get_remaining_time_in_millis.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.get_remaining_time_in_millis' class='fnname'>get_remaining_time_in_millis</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>, ContextError&gt;</code></td><td></td></tr></tbody></table></span></h4><div class='docblock'><p>Returns the remaining execution time, in milliseconds, until AWS Lambda terminates the
+function.</p>
+<p>This returns <code>ContextError::GetRemainingTimeFailed</code> if crowbar is unable to call the method
+or cast it to a <code>u64</code> from the Python object. This should generally never happen, so you
+should simply call this as <code>context.get_remaining_time_in_millis()?</code> in your function.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;'a&gt; !<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../lando/struct.LambdaContext.html" title="struct lando::LambdaContext">LambdaContext</a>&lt;'a&gt;</code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;'a&gt; !<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../lando/struct.LambdaContext.html" title="struct lando::LambdaContext">LambdaContext</a>&lt;'a&gt;</code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "lando";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
